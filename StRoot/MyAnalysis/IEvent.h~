@@ -1,0 +1,298 @@
+// author: Mike Lisa 14 feb 2013 // edited for just lambdas Dec 5 by Isaac Upsal
+
+#ifndef IEVENT_H
+#define IEVENT_H
+
+#include "TVector3.h"
+#include "TClonesArray.h"
+#include "TObject.h"
+
+
+//#include "ITrack.h"
+//#include "ILambda.h"
+
+
+class ITrack;
+class ILambda;
+
+
+/*
+  Store simple event summary information
+*/
+
+class DEvent : public TObject {
+
+ protected:
+
+  Int_t mRunday; 		//day of year data was run - this is important for resolution corrections
+  Int_t mRunNumber;
+  Int_t mEventNumber;  // within run
+  Int_t mRefMult;
+  Int_t mNumberOfChargedTracks;
+  Int_t mCentralityID;		//centrality ID number from StRefMultCorr9
+  TVector3 mPrimaryVertex;
+  Double_t mBfield;
+
+
+
+  //before recentering (RAW)
+  Double_t mQ1xRaw; 		//1st order event plane x cpt of q vector (after gain corrections)
+  Double_t mQ1yRaw;
+  Double_t mPsi1Raw;			//1st oder evp angle before recentering
+  Double_t mQ2xRaw;			//2nd order event plane x cpt of q vector raw (including lambda daughters)
+  Double_t mQ2yRaw;
+  Double_t mPsi2Raw;			//2nd oder evp angle before recentering (including lambda daughters in Q vectors)
+  //right (right BBC/positive eta)
+  Double_t mQ1xRaw_Right;
+  Double_t mQ1yRaw_Right;
+  Double_t mPsi1Raw_Right;
+  Double_t mQ2xRaw_Right;
+  Double_t mQ2yRaw_Right;
+  Double_t mPsi2Raw_Right;
+  //left (left BBC/negative eta)
+  Double_t mQ1xRaw_Left;
+  Double_t mQ1yRaw_Left;
+  Double_t mPsi1Raw_Left;
+  Double_t mQ2xRaw_Left;
+  Double_t mQ2yRaw_Left;
+  Double_t mPsi2Raw_Left;
+
+
+
+  //After recentering correction (average q vector is zero)
+  Double_t mQ1xRCT;
+  Double_t mQ1yRCT;
+  Double_t mPsi1RCT;			//1st oder evp angle after recentering
+  Double_t mQ2xRCT;				//free of lambda daughters now
+  Double_t mQ2yRCT;
+  Double_t mPsi2RCT;			//2nd oder evp angle after recentering
+  //right (right BBC/positive eta)
+  Double_t mQ1xRCT_Right;
+  Double_t mQ1yRCT_Right;
+  Double_t mPsi1RCT_Right;
+  Double_t mQ2xRCT_Right;
+  Double_t mQ2yRCT_Right;
+  Double_t mPsi2RCT_Right;
+  //left (left BBC/negative eta)
+  Double_t mQ1xRCT_Left;
+  Double_t mQ1yRCT_Left;
+  Double_t mPsi1RCT_Left;
+  Double_t mQ2xRCT_Left;
+  Double_t mQ2yRCT_Left;
+  Double_t mPsi2RCT_Left;
+
+
+
+  //After Shift Correction (psi distribution is flattened)
+  Double_t mPsi1SHIFT;
+  Double_t mPsi2SHIFT;
+  //right
+  Double_t mPsi1SHIFT_Right;
+  Double_t mPsi2SHIFT_Right;
+  //left
+  Double_t mPsi1SHIFT_Left;
+  Double_t mPsi2SHIFT_Left;
+
+
+
+
+  //After Resolution correction (this is final)
+  Double_t mPsi1RES;
+  Double_t mPsi2RES;
+  //right
+  Double_t mPsi1RES_Right;
+  Double_t mPsi2RES_Right;
+  //left
+  Double_t mPsi1RES_Left;
+  Double_t mPsi2RES_Left;
+
+
+
+  TClonesArray* fLambdaCollection;
+  TClonesArray* fAntiLambdaCollection;
+  void AddLambdaVertex(TClonesArray*, ILambda);
+  ILambda* GetLambdaVertex(TClonesArray*, Int_t index);
+  //ILambda* FindLambdaVertex(TClonesArray*, Int_t LambdaProtonKey, Int_t LambdaPionKey, Int_t BachelorPionKey);
+
+ public:
+
+  IEvent();
+  ~IEvent();
+
+  void ClearEvent();
+  void Init();
+
+  void     SetBfield(Double_t f){mBfield=f;}
+  Double_t Bfield(){return mBfield;}
+
+  Int_t   NLambda(){return fLambdaCollection->GetEntriesFast();}
+  ILambda*    GetLambda(Int_t index);
+  void    AddLambda(ILambda lam);		//should this be a pointer? Also how does it "know" I want to add to fLambdaCollection?
+
+  Int_t   NAntiLambda(){return fAntiLambdaCollection->GetEntriesFast();}
+  ILambda*    GetAntiLambda(Int_t index);
+  void    AddAntiLambda(ILambda lam);
+
+  TVector3 PrimaryVertex() {return mPrimaryVertex;}
+  void SetPrimaryVertex(TVector3 pv){mPrimaryVertex = pv;}
+
+  Int_t GetRefMult(){return mRefMult;}
+  Int_t GetRunNumber(){return mRunNumber;}
+  Int_t GetEventNumber(){return mEventNumber;}
+  Int_t GetRunDay(){return mRunday;}
+  Int_t GetNumberOfChargedTracks(){return mNumberOfChargedTracks;}
+
+  void SetRefMult(Int_t rm){mRefMult = rm;}
+  void SetRunNumber(Int_t rn){mRunNumber=rn;}
+  void SetEventNumber(Int_t en){mEventNumber=en;}
+  void SetRunDay(Int_t rd){mRunday=rd;}
+  void SetNumberOfChargedTracks(Int_t nct){mNumberOfChargedTracks=nct;}
+
+  //void SetUpPointers();   // this sets the pointers to daughters for the Lambdas and Xis DOES ISAAC NEED THIS???
+
+  void SetCentralityID(Int_t cent){mCentralityID=cent;}
+  Int_t GetCentralityID(){return mCentralityID;}
+
+
+
+
+
+
+
+  //now for all of the flow stuff
+  void SetQ1xRaw(Double_t a){mQ1xRaw=a;}
+  void SetQ1xRawRight(Double_t a){mQ1xRaw_Right=a;}
+  void SetQ1xRawLeft(Double_t a){mQ1xRaw_Left=a;}
+  void SetQ1yRaw(Double_t a){mQ1yRaw=a;}
+  void SetQ1yRawRight(Double_t a){mQ1yRaw_Right=a;}
+  void SetQ1yRawLeft(Double_t a){mQ1yRaw_Left=a;}
+  void SetPsi1Raw(Double_t a){mPsi1Raw=a;}
+  void SetPsi1RawRight(Double_t a){mPsi1Raw_Right=a;}
+  void SetPsi1RawLeft(Double_t a){mPsi1Raw_Left=a;}
+
+  void SetQ2xRaw(Double_t a){mQ2xRaw=a;}
+  void SetQ2xRawRight(Double_t a){mQ2xRaw_Right=a;}
+  void SetQ2xRawLeft(Double_t a){mQ2xRaw_Left=a;}
+  void SetQ2yRaw(Double_t a){mQ2yRaw=a;}
+  void SetQ2yRawRight(Double_t a){mQ2yRaw_Right=a;}
+  void SetQ2yRawLeft(Double_t a){mQ2yRaw_Left=a;}
+  void SetPsi2Raw(Double_t a){mPsi2Raw=a;}
+  void SetPsi2RawRight(Double_t a){mPsi2Raw_Right=a;}
+  void SetPsi2RawLeft(Double_t a){mPsi2Raw_Left=a;}
+
+  Double_t GetQ1xRaw(){return mQ1xRaw;}
+  Double_t GetQ1xRaw_Right(){return mQ1xRaw_Right;}
+  Double_t GetQ1xRaw_Left(){return mQ1xRaw_Left;}
+  Double_t GetQ1yRaw(){return mQ1yRaw;}
+  Double_t GetQ1yRaw_Right(){return mQ1yRaw_Right;}
+  Double_t GetQ1yRaw_Left(){return mQ1yRaw_Left;}
+  Double_t GetPsi1Raw(){return mPsi1Raw;}
+  Double_t GetPsi1RawRight(){return mPsi1Raw_Right;}
+  Double_t GetPsi1RawLeft(){return mPsi1Raw_Left;}
+
+  Double_t GetQ2xRaw(){return mQ2xRaw;}
+  Double_t GetQ2xRaw_Right(){return mQ2xRaw_Right;}
+  Double_t GetQ2xRaw_Left(){return mQ2xRaw_Left;}
+  Double_t GetQ2yRaw(){return mQ2yRaw;}
+  Double_t GetQ2yRaw_Right(){return mQ2yRaw_Right;}
+  Double_t GetQ2yRaw_Left(){return mQ2yRaw_Left;}
+  Double_t GetPsi2Raw(){return mPsi2Raw;}
+  Double_t GetPsi2RawRight(){return mPsi2Raw_Right;}
+  Double_t GetPsi2RawLeft(){return mPsi2Raw_Left;}
+
+
+
+
+
+  void SetQ1xRCT(Double_t a){mQ1xRCT=a;}
+  void SetQ1xRCTRight(Double_t a){mQ1xRCT_Right=a;}
+  void SetQ1xRCTLeft(Double_t a){mQ1xRCT_Left=a;}
+  void SetQ1yRCT(Double_t a){mQ1yRCT=a;}
+  void SetQ1yRCTRight(Double_t a){mQ1yRCT_Right=a;}
+  void SetQ1yRCTLeft(Double_t a){mQ1yRCT_Left=a;}
+  void SetPsi1RCT(Double_t a){mPsi1RCT=a;}
+  void SetPsi1RCTRight(Double_t a){mPsi1RCT_Right=a;}
+  void SetPsi1RCTLeft(Double_t a){mPsi1RCT_Left=a;}
+
+  void SetQ2xRCT(Double_t a){mQ2xRCT=a;}
+  void SetQ2xRCTRight(Double_t a){mQ2xRCT_Right=a;}
+  void SetQ2xRCTLeft(Double_t a){mQ2xRCT_Left=a;}
+  void SetQ2yRCT(Double_t a){mQ2yRCT=a;}
+  void SetQ2yRCTRight(Double_t a){mQ2yRCT_Right=a;}
+  void SetQ2yRCTLeft(Double_t a){mQ2yRCT_Left=a;}
+  void SetPsi2RCT(Double_t a){mPsi2RCT=a;}
+  void SetPsi2RCTRight(Double_t a){mPsi2RCT_Right=a;}
+  void SetPsi2RCTLeft(Double_t a){mPsi2RCT_Left=a;}
+
+  Double_t GetQ1xRCT(){return mQ1xRCT;}
+  Double_t GetQ1xRCT_Right(){return mQ1xRCT_Right;}
+  Double_t GetQ1xRCT_Left(){return mQ1xRCT_Left;}
+  Double_t GetQ1yRCT(){return mQ1yRCT;}
+  Double_t GetQ1yRCT_Right(){return mQ1yRCT_Right;}
+  Double_t GetQ1yRCT_Left(){return mQ1yRCT_Left;}
+  Double_t GetPsi1RCT(){return mPsi1RCT;}
+  Double_t GetPsi1RCTRight(){return mPsi1RCT_Right;}
+  Double_t GetPsi1RCTLeft(){return mPsi1RCT_Left;}
+
+  Double_t GetQ2xRCT(){return mQ2xRCT;}
+  Double_t GetQ2xRCT_Right(){return mQ2xRCT_Right;}
+  Double_t GetQ2xRCT_Left(){return mQ2xRCT_Left;}
+  Double_t GetQ2yRCT(){return mQ2yRCT;}
+  Double_t GetQ2yRCT_Right(){return mQ2yRCT_Right;}
+  Double_t GetQ2yRCT_Left(){return mQ2yRCT_Left;}
+  Double_t GetPsi2RCT(){return mPsi2RCT;}
+  Double_t GetPsi2RCTRight(){return mPsi2RCT_Right;}
+  Double_t GetPsi2RCTLeft(){return mPsi2RCT_Left;}
+
+
+
+
+
+
+  void SetPsi1SHIFT(Double_t a){mPsi1SHIFT=a;}
+  void SetPsi1SHIFTRight(Double_t a){mPsi1SHIFT_Right=a;}
+  void SetPsi1SHIFTLeft(Double_t a){mPsi1SHIFT_Left=a;}
+
+  void SetPsi2SHIFT(Double_t a){mPsi2SHIFT=a;}
+  void SetPsi2SHIFTRight(Double_t a){mPsi2SHIFT_Right=a;}
+  void SetPsi2SHIFTLeft(Double_t a){mPsi2SHIFT_Left=a;}
+
+  Double_t GetPsi1SHIFT(){return mPsi1SHIFT;}
+  Double_t GetPsi1SHIFTRight(){return mPsi1SHIFT_Right;}
+  Double_t GetPsi1SHIFTLeft(){return mPsi1SHIFT_Left;}
+
+  Double_t GetPsi2SHIFT(){return mPsi2SHIFT;}
+  Double_t GetPsi2SHIFTRight(){return mPsi2SHIFT_Right;}
+  Double_t GetPsi2SHIFTLeft(){return mPsi2SHIFT_Left;}
+
+
+
+
+
+
+
+  void SetPsi1RES(Double_t a){mPsi1RES=a;}
+  void SetPsi1RESRight(Double_t a){mPsi1RES_Right=a;}
+  void SetPsi1RESLeft(Double_t a){mPsi1RES_Left=a;}
+
+  void SetPsi2RES(Double_t a){mPsi2RES=a;}
+  void SetPsi2RESRight(Double_t a){mPsi2RES_Right=a;}
+  void SetPsi2RESLeft(Double_t a){mPsi2RES_Left=a;}
+
+  Double_t GetPsi1RES(){return mPsi1RES;}
+  Double_t GetPsi1RESRight(){return mPsi1RES_Right;}
+  Double_t GetPsi1RESLeft(){return mPsi1RES_Left;}
+
+  Double_t GetPsi2RES(){return mPsi2RES;}
+  Double_t GetPsi2RESRight(){return mPsi2RES_Right;}
+  Double_t GetPsi2RESLeft(){return mPsi2RES_Left;}
+
+  ClassDef(IEvent,1)  // my event
+
+
+};
+
+
+#endif
+
+

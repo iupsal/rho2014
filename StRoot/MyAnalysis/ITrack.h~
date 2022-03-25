@@ -1,0 +1,107 @@
+// author Mike Lisa 15 feb 2013
+// retrofitted for lambda analysis by Isaac Upsal Dec 4, 2013
+
+#ifndef ITRACK_H
+#define ITRACK_H
+
+#include "TLorentzVector.h"
+//#include "DEvent.h"
+class IEvent;
+
+class ITrack : public TObject{
+
+ protected:
+
+  Int_t mNhits;
+  Int_t mNhitsPossible;
+  Double_t mdEdx;
+  Double_t mNsigmaProton;
+  Double_t mNsigmaKaon;
+  Double_t mNsigmaPion;
+  Double_t mNsigmaElectron;
+  Double_t mTofBeta;
+  Double_t mTofMassSquared;
+  Int_t mChargeSign;        // +1 or -1
+  Double_t mDCA;
+  TLorentzVector mFourMomentum;  // using the mass assigned to this particle. (proton mass or pion mass)
+  Bool_t mIsProton;
+  Bool_t mIsPiPlus;
+  Bool_t mIsAntiProton;
+  Bool_t mIsPiMinus;
+  Int_t mFlag;
+  Double_t mPDGMass;
+  Double_t mProtonPDGMass = 0.9382720;
+  Double_t mPionPDGMass = 0.139570;
+  Int_t mTrackID;
+
+
+  //  DEvent* mParentEvent;
+
+
+  // tells the ancestry.  Note that ALL of these may be simultaneously true (for different ancestors)
+  Bool_t mIsLambdaDaughter;
+  Bool_t mIsAntiLambdaDaughter;
+
+
+
+
+ public:
+
+  ITrack();
+  ~ITrack(){/* no-op */}
+
+  //  void SetParentEvent(DEvent* p){mParentEvent=p;}
+  void SetIsLambdaDaughter(Bool_t i=kTRUE){mIsAntiLambdaDaughter=i;}
+  void SetIsAntiLambdaDaughter(Bool_t i=kTRUE){mIsAntiLambdaDaughter=i;}
+  void SetNhits(Int_t n){mNhits=n;}
+  void SetNhitsPossible(Int_t n){mNhitsPossible=n;}
+  void SetDeDx(Double_t d){mdEdx=d;}
+  void SetNsigmaProton(Double_t s){mNsigmaProton=s;}
+  void SetNsigmaKaon(Double_t s){mNsigmaKaon=s;}
+  void SetNsigmaPion(Double_t s){mNsigmaPion=s;}
+  void SetNsigmaElectron(Double_t s){mNsigmaElectron=s;}
+  void SetTofBeta(Double_t b){mTofBeta=b;}
+  void SetTofMassSquared(Double_t m2){mTofMassSquared=m2;}
+  void SetChargeSign(Int_t s){mChargeSign=s;}
+  void SetDCA(Double_t dca){mDCA=dca;} //to PV
+  void SetThreeMomentumAndMass(TVector3 p, Double_t m);
+  void SetIsProton(Bool_t b){mIsProton=b; mPDGMass = mProtonPDGMass;}
+  void SetIsPiPlus(Bool_t b){mIsPiPlus=b; mPDGMass = mPionPDGMass;}
+  void SetIsAntiProton(Bool_t b){mIsAntiProton=b; mPDGMass = mProtonPDGMass;}
+  void SetIsPiMinus(Bool_t b){mIsPiMinus=b; mPDGMass = mPionPDGMass;}
+  void SetFlag(Int_t flag){mFlag=flag;}
+  void SetTrackID(Int_t id){mTrackID=id;}
+
+  //  DEvent* ParentEvent(){return mParentEvent;}
+  Bool_t IsLambdaDaughter(){return mIsLambdaDaughter;}
+  Bool_t IsAntiLambdaDaughter(){return mIsAntiLambdaDaughter;}
+  Int_t Nhits(){return mNhits;}
+  Int_t NhitsPossible(){return mNhitsPossible;}
+  Double_t FractionOfPossibleHits(){return ((Double_t)mNhits)/((Double_t)mNhitsPossible);}
+  Double_t NsigmaProton(){return mNsigmaProton;}
+  Double_t NsigmaKaon(){return mNsigmaKaon;}
+  Double_t NsigmaPion(){return mNsigmaPion;}
+  Double_t NsigmaElectron(){return mNsigmaElectron;}
+  Double_t TofBeta(){return mTofBeta;}
+  Double_t TofMassSquared(){return mTofMassSquared;}
+  Int_t ChargeSign(){return mChargeSign;}
+  Double_t DCA(){return mDCA;}
+  TLorentzVector FourMomentum(){return mFourMomentum;}
+  Bool_t IsProton(){return mIsProton;}
+  Bool_t IsPiPlus(){return mIsPiPlus;}
+  Bool_t IsAntiProton(){return mIsAntiProton;}
+  Bool_t IsPiMinus(){return mIsPiMinus;}
+  Double_t Eta(){return mFourMomentum.Eta();}
+  Int_t Flag(){return mFlag;}
+  Double_t PDGMass(){return mPDGMass;}
+  Double_t Phi(){return mFourMomentum.Phi();}
+  Double_t Pt(){return mFourMomentum.Pt();}
+  Double_t Rapidity(){return mFourMomentum.Rapidity();}
+  Int_t TrackID(){return mTrackID;}
+  ClassDef(ITrack,1)  // my track
+
+
+};
+
+
+#endif

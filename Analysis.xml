@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!--<job minFilesPerProcess="4" maxFilesPerProcess="5" simulateSubmission="false" fileListSyntax="xrootd" >-->
+<job eventsPerHour="15000" minEvents="4000" maxEvents="10000" softLimits="true" simulateSubmission="false" fileListSyntax="xrootd">
+ 
+  <!--<stdout discard="true" />-->
+
+
+
+
+  <!--get_file_list.pl -keys 'path,filename' -cond 'storage!=hpss,filetype=daq_reco_picoDst,filename~st_physics,production=P16id,library=SL18f,trgsetupname=AuAu_200_production_high_2014||AuAu_200_production_mid_2014||AuAu_200_production_low_2014||AuAu_200_production_2014' -limit 0 -distinct -delim '/'-->
+  <!--<input URL="filelist:/star/u/iupsal/KFParticleTrees/tinyfile200.list" nFiles="all" />-->
+
+
+
+
+
+
+
+
+
+  <!-- LOW: 4,5 + 6,7 + 8,9 + 10,11 + 12,13 + 14 -->
+ 
+  <!-- Shift 4 low + mid --> 
+  
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]94-96" preferStorage="local" singleCopy="true" nFiles="all" />
+  
+
+  <!-- Shift 5 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]97-103" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+  
+  <!-- Shift 6 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]104-110" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 7 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]111-117" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 8 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]118-124" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 9 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]125-131" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 10 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]132-138" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 11 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]139-145" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 12 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]146-152" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 13 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]153-159" preferStorage="local" singleCopy="true" nFiles="all" />
+  -->
+
+  <!-- Shift 14 low + mid -->
+  <!--
+  <input URL="catalog:star.bnl.gov?production=P16id,filetype=daq_reco_PicoDst,trgsetupname=AuAu_200_production_low_2014||AuAu_200_production_mid_2014,tpx=1,filename~st_physics,sanity=1,storage!=HPSS,daynumber[]160-166" preferStorage="local" singleCopy="true" nFiles="all" />  
+  -->
+    
+
+
+
+
+  
+  <stderr URL="file:/star/data05/pwg/iupsal/Output/rho/2014/Shift4/$JOBID.err"/>
+  <stdout URL="file:/star/data05/pwg/iupsal/Output/rho/2014/Shift4/$JOBID.out"/>
+  <output fromScratch="*.root" toURL="file:/star/data05/pwg/iupsal/Output/rho/2014/Shift4/" />
+  <output fromScratch="*.log" toURL="file:/star/data05/pwg/iupsal/Output/rho/2014/Shift4/" />
+
+
+  <!-- inputs are shift week, correction level (0, 1, 2), whether or not you're only doing EP corrections -->
+
+  <command>
+    starver SL21a
+    setenv NODEBUG yes
+    <!--root4star -l -q -b Analysis.C\(0,$INPUTFILECOUNT,\"$FILELIST\",\"/star/data05/pwg/iupsal/Output/Shift4/\",\"$JOBID\"\)&gt;&amp; ${JOBID}.log-->
+    root4star -l -q -b Analysis.C\(0,\"$FILELIST\",\"$SCRATCH\",\"$JOBID\",4,2,0\)&gt;&amp; ${JOBID}.log
+  </command> 
+
+  <SandBox installer="ZIP">
+    <Package>
+      <File>file:./StRoot</File>
+      <File>file:./.sl73_gcc485</File>
+      <File>file:./Analysis.xml</File>    <!-- Only so we can print it out ... done above -->
+      <File>file:./Analysis.C</File>      <!-- Required -->
+
+      <File>file:./Corrections/Shift4.root</File>
+      <File>file:./Corrections/Shift5.root</File>
+      <File>file:./Corrections/Shift6.root</File>
+      <File>file:./Corrections/Shift7.root</File>
+      <File>file:./Corrections/Shift8.root</File>
+      <File>file:./Corrections/Shift9.root</File>
+      <File>file:./Corrections/Shift10.root</File>
+      <File>file:./Corrections/Shift11.root</File>
+      <File>file:./Corrections/Shift12.root</File>
+      <File>file:./Corrections/Shift13.root</File>
+      <File>file:./Corrections/Shift14.root</File>
+
+    </Package>
+  </SandBox>
+
+
+  <Generator>
+    <Location>./submitDirectory</Location>
+    <ReportLocation>./submitDirectory/</ReportLocation>
+  </Generator>
+</job>
